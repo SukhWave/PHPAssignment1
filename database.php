@@ -1,6 +1,6 @@
 <?php
     session_start();
-    $dsn = 'mysql:host=localhost;dbname=contact_manager';
+    $dsn = 'mysql:host=localhost;dbname=book_list';
     $username = 'root';
     $password = '';
 

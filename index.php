@@ -1,10 +1,10 @@
 <?php
     session_start();
     require("database.php");
-    $queryContacts = 'SELECT * FROM contacts';
-    $statement1 = $db->prepare($queryContacts);
+    $queryBooks = 'SELECT * FROM books';
+    $statement1 = $db->prepare($queryBooks);
     $statement1->execute();
-    $contacts = $statement1->fetchAll();
+    $books = $statement1->fetchAll();
 
     $statement1->closeCursor();
 ?>
@@ -18,7 +18,7 @@
         <?php include("header.php"); ?>
 
         <main>
-            <h2>Contact List</h2>
+            <h2>Book List</h2>
 
             <table>
                 <tr>
@@ -27,17 +27,17 @@
                     <th>Email Address</th>
                     <th>Phone Number</th>
                     <th>Status</th>
-                    <th>Publishes</th>
+                    <th>Published</th>
                 </tr>
 
-                <?php foreach ($contacts as $contact): ?>
+                <?php foreach ($books as $book): ?>
                     <tr>
-                        <td><?php echo $contact['firstName']; ?></td>
-                        <td><?php echo $contact['lastName']; ?></td>
-                        <td><?php echo $contact['emailAddress']; ?></td>
-                        <td><?php echo $contact['phone']; ?></td>
-                        <td><?php echo $contact['status']; ?></td>
-                        <td><?php echo $contact['dob']; ?></td>
+                        <td><?php echo $book['bookName']; ?></td>
+                        <td><?php echo $book['author']; ?></td>
+                        <td><?php echo $book['emailAddress']; ?></td>
+                        <td><?php echo $book['phone']; ?></td>
+                        <td><?php echo $book['status']; ?></td>
+                        <td><?php echo $book['published']; ?></td>
                     </tr>
                 <?php endforeach; ?>
 
