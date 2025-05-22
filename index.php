@@ -22,22 +22,22 @@
 
             <table>
                 <tr>
-                    <th>Book Name</th>
-                    <th>Author</th>
-                    <th>Email Address</th>
-                    <th>Phone Number</th>
-                    <th>Status</th>
-                    <th>Published</th>
+                    <th>Book Name </th>
+                    <th>Author </th>
+                    <th>Email Address </th>
+                    <th>Phone Number </th>
+                    <th>Status </th>
+                    <th>Published </th>
                 </tr>
 
                 <?php foreach ($books as $book): ?>
                     <tr>
-                        <td><?php echo $book['bookName ']; ?></td>
-                        <td><?php echo $book['author ']; ?></td>
-                        <td><?php echo $book['emailAddress ']; ?></td>
-                        <td><?php echo $book['phone ']; ?></td>
-                        <td><?php echo $book['status ']; ?></td>
-                        <td><?php echo $book['published ']; ?></td>
+                        <td><?php echo $book['bookName']; ?></td>
+                        <td><?php echo $book['author']; ?></td>
+                        <td><?php echo $book['emailAddress']; ?></td>
+                        <td><?php echo $book['phone']; ?></td>
+                        <td><?php echo $book['status']; ?></td>
+                        <td><?php echo $book['published']; ?></td>
                     </tr>
                 <?php endforeach; ?>
 
