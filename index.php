@@ -22,12 +22,12 @@
 
             <table>
                 <tr>
-                    <th>Book Name </th>
-                    <th>Author </th>
-                    <th>Email Address </th>
-                    <th>Phone Number </th>
-                    <th>Status </th>
-                    <th>Published </th>
+                    <th>Book Name</th>
+                    <th>Author</th>
+                    <th>Email Address</th>
+                    <th>Phone Number</th>
+                    <th>Status</th>
+                    <th>Published</th>
                 </tr>
 
                 <?php foreach ($books as $book): ?>
