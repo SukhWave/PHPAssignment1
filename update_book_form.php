@@ -35,7 +35,7 @@
 
                     <label>Book Name:</label>
                     <input type="text" name="book_name"
-                       value="<?php echo $book['firstName']; ?>" /><br />
+                       value="<?php echo $book['bookName']; ?>" /><br />
 
                     <label>Author:</label>
                     <input type="text" name="Author"
