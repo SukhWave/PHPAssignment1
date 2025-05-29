@@ -28,6 +28,9 @@
                     <th>Phone Number</th>
                     <th>Status</th>
                     <th>Published</th>
+                    <th>Photo</th>
+                    <th>&nbsp;</th> <!-- for edit button -->
+                    <th>&nbsp;</th> <!-- for delete button -->
                 </tr>
 
                 <?php foreach ($books as $book): ?>
@@ -38,10 +41,27 @@
                         <td><?php echo $book['phone']; ?></td>
                         <td><?php echo $book['status']; ?></td>
                         <td><?php echo $book['published']; ?></td>
+                        <td><img src="<?php echo htmlspecialchars('./images/' . $book['imageName']); ?>" alt="<?php echo htmlspecialchars('./images/' . $book['imageName']); ?>" style="width:auto; height: 100px;" /></td>
+                        <td>
+                            <form action="update_book_form.php" method="post">
+                                <input type="hidden" name="book_id"
+                                    value="<?php echo $book['bookID']; ?>" />
+                                <input type="submit" value="Update" />   
+                            </form>
+                        </td> <!-- for edit button -->
+                        <td>
+                            <form action="delete_book.php" method="post">
+                                <input type="hidden" name="book_id"
+                                    value="<?php echo $book['bookID']; ?>" />
+                                <input type="submit" value="Delete" />   
+                            </form>
+                        </td> <!-- for delete button -->
                     </tr>
+
                 <?php endforeach; ?>
 
             </table>
+            <p><a href="add_book_form.php">Add Book</a></p>            
         </main>
 
         <?php include("footer.php"); ?>
