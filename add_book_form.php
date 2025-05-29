@@ -32,7 +32,10 @@
                     <input type="radio" name="status" value="nonmember" />Non-Member<br />
 
                     <label>Published Date:</label>
-                    <input type="date" name="published" /><br />                    
+                    <input type="date" name="published" /><br /> 
+
+                    <label>Genre:</label>
+                    <input type="text" name="genre" /><br />
 
                     <label>Upload Image</label>
                     <input type="file" name="file1" /><br /> 

@@ -28,6 +28,7 @@
                     <th>Phone Number</th>
                     <th>Status</th>
                     <th>Published</th>
+                    <th>Genre</th>
                     <th>Photo</th>
                     <th>&nbsp;</th> <!-- for edit button -->
                     <th>&nbsp;</th> <!-- for delete button -->
@@ -41,6 +42,7 @@
                         <td><?php echo $book['phone']; ?></td>
                         <td><?php echo $book['status']; ?></td>
                         <td><?php echo $book['published']; ?></td>
+                        <td><?php echo $book['genre']; ?></td>                        
                         <td><img src="<?php echo htmlspecialchars('./images/' . $book['imageName']); ?>" alt="<?php echo htmlspecialchars('./images/' . $book['imageName']); ?>" style="width:auto; height: 100px;" /></td>
                         <td>
                             <form action="update_book_form.php" method="post">

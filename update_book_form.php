@@ -59,6 +59,9 @@
                     <input type="date" name="published"
                        value="<?php echo $book['published']; ?>" /><br />                    
 
+                    <label>Genre:</label>
+                    <input type="text" name="genre"
+                       value="<?php echo $book['genre']; ?>" /><br />
                   </div>
 
                   <div id="buttons">

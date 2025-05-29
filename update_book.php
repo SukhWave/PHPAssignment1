@@ -12,6 +12,7 @@
     $phone_number = filter_input(INPUT_POST, 'phone_number');
     $status= filter_input(INPUT_POST, 'status'); // assigns the value of the selected radio button
     $published = filter_input(INPUT_POST, 'published');
+    $genre = filter_input(INPUT_POST, 'genre');
 
     require_once('database.php');
     $queryBooks = 'SELECT * FROM books';
@@ -35,7 +36,7 @@
 
     if($book_name == null || $author == null ||
       $email_address == null || $phone_number == null || 
-      $published == null)
+      $published == null || $genre == null)
       {
         $_SESSION["add_error"] = "Invalid book data, check all fields and try again.";
 
@@ -56,7 +57,8 @@
             emailAddress = :emailAddress,
             phone = :phone,
             status = :status,
-            published = :published
+            published = :published,
+            genre = :genre
             WHERE bookID = :bookID';
 
         $statement = $db->prepare($query);
@@ -67,6 +69,7 @@
         $statement->bindvalue(':phone', $phone_number);
         $statement->bindvalue(':status', $status); 
         $statement->bindvalue(':published', $published);
+        $statement->bindvalue(':genre', $genre);
         
         $statement->execute();
         $statement->closeCursor();

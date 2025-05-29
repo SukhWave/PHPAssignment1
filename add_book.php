@@ -35,6 +35,7 @@
     $phone_number = filter_input(INPUT_POST, 'phone_number');
     $status= filter_input(INPUT_POST, 'status'); // assigns the value of the selected radio button
     $published = filter_input(INPUT_POST, 'published');
+    $genre = filter_input(INPUT_POST, 'genre');
     $image_name = $_FILES['file1']['name'];
 
     require_once('database.php');
@@ -59,7 +60,7 @@
 
     if($book_name == null || $author == null ||
       $email_address == null || $phone_number == null || 
-      $published == null)
+      $published == null || $genre == null)
       {
         $_SESSION["add_error"] = "Invalid book data, check all fields and try again.";
 
@@ -74,9 +75,9 @@
 
     //Add the book to the database
     $query = 'INSERT INTO books
-        (bookName, author, emailAddress, phone, status, published, imageName)
+        (bookName, author, emailAddress, phone, status, published, genre, imageName)
         VALUES
-        (:bookName, :author, :emailAddress, :phone, :status, :published, :imageName)';
+        (:bookName, :author, :emailAddress, :phone, :status, :published, :genre, :imageName)';
 
     $statement = $db->prepare($query);
     $statement->bindvalue(':bookName', $book_name);
@@ -85,6 +86,7 @@
     $statement->bindvalue(':phone', $phone_number);
     $statement->bindvalue(':status', $status); 
     $statement->bindvalue(':published', $published);
+    $statement->bindvalue(':genre', $genre);
     $statement->bindvalue(':imageName', $image_name);
     
     $statement->execute();
