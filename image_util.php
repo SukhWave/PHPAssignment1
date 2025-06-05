@@ -5,13 +5,17 @@ function process_image($dir, $filename) {
     $i = strrpos($filename, '.');
     $image_name = substr($filename, 0, $i);
     $ext = substr($filename, $i);
+
     // Set up the read path
     $image_path = $dir . DIRECTORY_SEPARATOR . $filename;
+
     // Set up the write paths
     $image_path_400 = $dir . $image_name . '_400' . $ext;
     $image_path_100 = $dir . $image_name . '_100' . $ext;
+
     // Create an image that's a maximum of 400x300 pixels
     resize_image($image_path, $image_path_400, 400, 300);
+
     // Create a thumbnail image that's a maximum of 100x100 pixels
     resize_image($image_path, $image_path_100, 100, 100);
 }
@@ -20,6 +24,7 @@ function process_image($dir, $filename) {
  ********************************************/
 function resize_image($old_image_path, $new_image_path,
         $max_width, $max_height) {
+
     // Get image type
     $image_info = getimagesize($old_image_path);
     $image_type = $image_info[2];
@@ -46,17 +51,22 @@ function resize_image($old_image_path, $new_image_path,
     $old_image = $image_from_file($old_image_path);
     $old_width = imagesx($old_image);
     $old_height = imagesy($old_image);
+    
     // Calculate height and width ratios
     $width_ratio = $old_width / $max_width;
     $height_ratio = $old_height / $max_height;
+
     // If image is larger than specified ratio, create the new image
     if ($width_ratio > 1 || $height_ratio > 1) {
+
         // Calculate height and width for the new image
         $ratio = max($width_ratio, $height_ratio);
         $new_height = round($old_height / $ratio);
         $new_width = round($old_width / $ratio);
+
         // Create the new image
         $new_image = imagecreatetruecolor($new_width, $new_height);
+
         // Set transparency according to image type
         if ($image_type == IMAGETYPE_GIF) {
             $alpha = imagecolorallocatealpha($new_image, 0, 0, 0, 127);
@@ -78,6 +88,7 @@ function resize_image($old_image_path, $new_image_path,
                            $old_width, $old_height);
         // Write the new image to a new file
         $image_to_file($new_image, $new_image_path);
+
         // Free any memory associated with the new image
         imagedestroy($new_image);
     } else {

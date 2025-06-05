@@ -1,11 +1,22 @@
 <?php
     session_start();
+
+     if (!isset($_SESSION["isLoggedIn"])) {
+        header("Location: login_form.php");
+        die();
+    } 
+
     require("database.php");
-    $queryBooks = 'SELECT * FROM books';
+
+    // JOIN books with bookTypes to get the bookType name
+    $queryBooks = '
+        SELECT c.*, t.bookType
+        FROM books c
+        LEFT JOIN types t ON c.typeID = t.typeID
+    ';
     $statement1 = $db->prepare($queryBooks);
     $statement1->execute();
     $books = $statement1->fetchAll();
-
     $statement1->closeCursor();
 ?>
 <!DOCTYPE html>
@@ -28,7 +39,7 @@
                     <th>Phone Number</th>
                     <th>Status</th>
                     <th>Published</th>
-                    <th>Genre</th>
+                    <th>Book Type</th>
                     <th>Photo</th>
                     <th>&nbsp;</th> <!-- for edit button -->
                     <th>&nbsp;</th> <!-- for delete button -->
@@ -42,8 +53,11 @@
                         <td><?php echo $book['phone']; ?></td>
                         <td><?php echo $book['status']; ?></td>
                         <td><?php echo $book['published']; ?></td>
-                        <td><?php echo $book['genre']; ?></td>                        
-                        <td><img src="<?php echo htmlspecialchars('./images/' . $book['imageName']); ?>" alt="<?php echo htmlspecialchars('./images/' . $book['imageName']); ?>" style="width:auto; height: 100px;" /></td>
+                        <td><?php echo $book['bookType']; ?></td>                        
+                        <td>
+                            <img src="<?php echo htmlspecialchars('./images/' . $book['imageName']); ?>" 
+                                 alt="<?php echo htmlspecialchars($book['bookName'] . ' ' . $book['author']); ?>" />
+                        </td>
                         <td>
                             <form action="update_book_form.php" method="post">
                                 <input type="hidden" name="book_id"
@@ -59,11 +73,11 @@
                             </form>
                         </td> <!-- for delete button -->
                     </tr>
-
                 <?php endforeach; ?>
 
             </table>
-            <p><a href="add_book_form.php">Add Book</a></p>            
+            <p><a href="add_book_form.php">Add Book</a></p>
+            <p><a href="logout.php">Logout</a></p>            
         </main>
 
         <?php include("footer.php"); ?>

@@ -1,3 +1,11 @@
+<?php
+    require_once('database.php');
+    $queryTypes = 'SELECT * FROM types';
+    $statement = $db->prepare($queryTypes);
+    $statement->execute();
+    $types = $statement->fetchAll();
+    $statement->closeCursor();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -34,8 +42,14 @@
                     <label>Published Date:</label>
                     <input type="date" name="published" /><br /> 
 
-                    <label>Genre:</label>
-                    <input type="text" name="genre" /><br />
+                    <label>Book Type:</label>
+                    <select name="type_id">
+                        <?php foreach ($types as $type): ?>
+                            <option value="<?php echo $type['typeID']; ?>">
+                                <?php echo $type['bookType']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select><br />                    
 
                     <label>Upload Image</label>
                     <input type="file" name="file1" /><br /> 
