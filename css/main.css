@@ -67,8 +67,8 @@ th, td {
   vertical-align: middle;
 
 }
-img.book-img {
-    max-width: 150px;
+img {
+    max-width: 100px;
     height: auto;
 }
  

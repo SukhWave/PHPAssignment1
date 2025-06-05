@@ -44,7 +44,6 @@
     $statement1 = $db->prepare($queryBooks);
     $statement1->execute();
     $books = $statement1->fetchAll();
-
     $statement1->closeCursor();
 
     foreach($books as $book) {
@@ -56,7 +55,7 @@
     }
 
     if($book_name == null || $author == null ||
-      $email_address == null || $phone_number == null || 
+      $email_address == null || $phone_number == null || $status == null ||
       $published == null || $type_id === false) {
         $_SESSION["add_error"] = "Invalid book data, check all fields and try again.";
         header("Location: error.php");

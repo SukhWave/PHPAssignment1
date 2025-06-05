@@ -6,6 +6,7 @@
     $types = $statement->fetchAll();
     $statement->closeCursor();
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
