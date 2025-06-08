@@ -33,7 +33,6 @@
     $type_id = filter_input(INPUT_POST, 'type_id', FILTER_VALIDATE_INT);
 
     $file_name = $_FILES['file1']['name'];
-
     $i = strrpos($file_name, '.');
     $image_name = substr($file_name, 0, $i);
     $ext = substr($file_name, $i);
@@ -68,19 +67,19 @@
         (:bookName, :author, :emailAddress, :phone, :status, :published, :imageName, :typeID)';
 
     $statement = $db->prepare($query);
-    $statement->bindvalue(':bookName', $book_name);
-    $statement->bindvalue(':author', $author);
-    $statement->bindvalue(':emailAddress', $email_address); 
-    $statement->bindvalue(':phone', $phone_number);
-    $statement->bindvalue(':status', $status); 
-    $statement->bindvalue(':published', $published);
-    $statement->bindvalue(':imageName', $image_name_100);
-    $statement->bindValue(':typeID', $type_id);  
+    $statement->bindValue(':bookName', $book_name);
+    $statement->bindValue(':author', $author);
+    $statement->bindValue(':emailAddress', $email_address);
+    $statement->bindValue(':phone', $phone_number);
+    $statement->bindValue(':status', $status);
+    $statement->bindValue(':published', $published);
+    $statement->bindValue(':imageName', $image_name_100);
+    $statement->bindValue(':typeID', $type_id); 
     $statement->execute();
     $statement->closeCursor();
-
-    $_SESSION["fullName"] = $book_name . " " . $author;
 }
+    $_SESSION["fullName"] = $book_name . " " . $author;
+    
     //redirect to confirmation page
     header("Location: confirmation.php");
     die();
