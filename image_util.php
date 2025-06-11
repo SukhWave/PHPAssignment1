@@ -1,4 +1,5 @@
 <?php
+
 function process_image($dir, $filename) {
     // Set up the variables
     $dir = $dir . DIRECTORY_SEPARATOR;
@@ -19,6 +20,7 @@ function process_image($dir, $filename) {
     // Create a thumbnail image that's a maximum of 100x100 pixels
     resize_image($image_path, $image_path_100, 100, 100);
 }
+
 /*******************************************
  * Resize image to 400x300 max
  ********************************************/
@@ -44,14 +46,15 @@ function resize_image($old_image_path, $new_image_path,
             $image_to_file = 'imagepng';
             break;
         default:
-            echo 'File must be a JPEG, GIF, or PNG image.'.$image_type;                  
+            echo 'File must be a JPEG, GIF, or PNG image.'.$image_type;                        
             exit;
     }
+
     // Get the old image and its height and width
     $old_image = $image_from_file($old_image_path);
     $old_width = imagesx($old_image);
     $old_height = imagesy($old_image);
-    
+
     // Calculate height and width ratios
     $width_ratio = $old_width / $max_width;
     $height_ratio = $old_height / $max_height;
@@ -76,6 +79,7 @@ function resize_image($old_image_path, $new_image_path,
             imagealphablending($new_image, false);
             imagesavealpha($new_image, true);
         }
+
         // Copy old image to new image - this resizes the image
         $new_x = 0;
         $new_y = 0;
@@ -86,6 +90,7 @@ function resize_image($old_image_path, $new_image_path,
                            $old_x, $old_y,
                            $new_width, $new_height, 
                            $old_width, $old_height);
+
         // Write the new image to a new file
         $image_to_file($new_image, $new_image_path);
 
@@ -98,5 +103,5 @@ function resize_image($old_image_path, $new_image_path,
     // Free any memory associated with the old image
     imagedestroy($old_image);
 }
+
 ?>
- 

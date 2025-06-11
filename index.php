@@ -10,9 +10,9 @@
 
     // JOIN books with bookTypes to get the bookType name
     $queryBooks = '
-        SELECT c.*, t.bookType
-        FROM books c
-        LEFT JOIN types t ON c.typeID = t.typeID
+        SELECT b.*, t.bookType
+        FROM books b
+        LEFT JOIN types t ON b.typeID = t.typeID
     ';
     $statement1 = $db->prepare($queryBooks);
     $statement1->execute();
@@ -43,6 +43,8 @@
                     <th>Photo</th>
                     <th>&nbsp;</th> <!-- for edit button -->
                     <th>&nbsp;</th> <!-- for delete button -->
+                    <th>&nbsp;</th> <!-- for view details -->
+
                 </tr>
 
                 <?php foreach ($books as $book): ?>
@@ -55,8 +57,10 @@
                         <td><?php echo $book['published']; ?></td>
                         <td><?php echo $book['bookType']; ?></td>                        
                         <td>
-                            <img src="<?php echo htmlspecialchars('./images/' . $book['imageName']); ?>" 
-                                 alt="<?php echo htmlspecialchars($book['bookName'] . ' ' . $book['author']); ?>" />
+                <img src="<?php echo htmlspecialchars('./images/' . $book['imageName']); ?>" 
+                    alt="<?php echo htmlspecialchars($book['bookName'] . ' ' . $book['author']); ?>" 
+                    class="book-image" />
+
                         </td>
                         <td>
                             <form action="update_book_form.php" method="post">
@@ -72,6 +76,12 @@
                                 <input type="submit" value="Delete" />   
                             </form>
                         </td> <!-- for delete button -->
+                        <td>
+                            <form action="book_details.php" method="post">
+                                <input type="hidden" name="book_id" value="<?php echo $book['bookID']; ?>" />
+                                <input type="submit" value="View Details" />
+                            </form>
+                        </td> <!-- for view details button -->
                     </tr>
                 <?php endforeach; ?>
 

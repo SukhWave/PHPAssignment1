@@ -1,66 +1,73 @@
 <?php
-    session_start();
+session_start();
+require_once('message.php');
 
-    // get data from the form
-    $user_name = filter_input(INPUT_POST, 'user_name');    
-    $password = filter_input(INPUT_POST, 'password');
+// Get data from the form
+$user_name = filter_input(INPUT_POST, 'user_name');
+$password = filter_input(INPUT_POST, 'password');
+$email_address = filter_input(INPUT_POST, 'email_address');
 
-    $hash = password_hash($password, PASSWORD_DEFAULT);  
-    
-    require_once('database.php');
-    $queryRegistrations = 'SELECT * FROM registrations';
-    $statement = $db->prepare($queryRegistrations);
-    $statement->execute();
-    $registrations = $statement->fetchAll();
+$hash = password_hash($password, PASSWORD_DEFAULT);
 
-    $statement->closeCursor();
+// Validate input
+if ($user_name === null || $password === null || $email_address === null) {
+    $_SESSION["add_error"] = "Invalid registration data. Check all fields and try again.";
+    header("Location: error.php");
+    die();
+}
 
-    foreach ($registrations as $registration)
-    {
-        if ($user_name == $registration["userName"])
-        {
-            $_SESSION["add_error"] = "Invalid data, Duplicate Username. Try again.";
+require_once('database.php');
 
-            $url = "error.php";
-            header("Location: " . $url);
-            die();
-        }
-    }
+// Check for duplicate usernames
+$queryRegistrations = 'SELECT * FROM registrations';
+$statement = $db->prepare($queryRegistrations);
+$statement->execute();
+$registrations = $statement->fetchAll();
+$statement->closeCursor();
 
-    if ($user_name === null || $password === null)
-    {
-        $_SESSION["add_error"] = "Invalid registration data, Check all fields and try again.";
-
-        $url = "error.php";
-        header("Location: " . $url);
+foreach ($registrations as $registration) {
+    if ($user_name === $registration["userName"]) {
+        $_SESSION["add_error"] = "Invalid data, duplicate username. Try again.";
+        header("Location: error.php");
         die();
     }
-    else
-    {        
+}
 
-        require_once('database.php');
+// Add new registration
+$query = 'INSERT INTO registrations (userName, password, emailAddress)
+          VALUES (:userName, :password, :emailAddress)';
+$statement = $db->prepare($query);
+$statement->bindValue(':userName', $user_name);
+$statement->bindValue(':password', $hash);
+$statement->bindValue(':emailAddress', $email_address);
+$statement->execute();
+$statement->closeCursor();
 
-        // Add the contact to the database
-        $query = 'INSERT INTO registrations
-            (userName, password)
-            VALUES
-            (:userName, :password)';
+// Log in user
+$_SESSION["isLoggedIn"] = 1;
+$_SESSION["userName"] = $user_name;
 
-        $statement = $db->prepare($query);
-        $statement->bindValue(':userName', $user_name);
-        $statement->bindValue(':password', $hash);
+// Set up email variables
+$to_address = $email_address;
+$to_name = $user_name;
+$from_address = 'username@gmail.com';
+$from_name = 'Book List';
+$subject = 'Book List - Registration Complete';
+$body = '<p>Thanks for registering with <strong>Book List</strong>.</p>' .
+        '<p>Sincerely,</p>' .
+        '<p>The Book List Team</p>';
+$is_body_html = true;
 
-        $statement->execute();
-        $statement->closeCursor();
+// Send confirmation email
+try {
+    send_email($to_address, $to_name, $from_address, $from_name, $subject, $body, $is_body_html);
+} catch (Exception $ex) {
+    $_SESSION["add_error"] = $ex->getMessage();
+    header("Location: error.php");
+    die();
+}
 
-    }
-
-    $_SESSION["isLoggedIn"] = 1;
-    $_SESSION["userName"] = $user_name;
-
-    // redirect to confirmation page
-    $url = "register_confirmation.php";
-    header("Location: " . $url);
-    die(); // releases add_contact.php from memory
-
+// Redirect to confirmation
+header("Location: register_confirmation.php");
+die();
 ?>
