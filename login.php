@@ -9,8 +9,8 @@
     
     require_once('database.php');
 
-    $query = 'SELECT password FROM registrations
-                WHERE userName = :userName';
+    $query = 'SELECT * FROM registrations WHERE userName = :userName';
+
     $statement1 = $db->prepare($query);
 
     $statement1->bindValue(':userName', $user_name);
@@ -26,6 +26,7 @@
 
     if ($_SESSION["isLoggedIn"] == TRUE)
     {
+        $_SESSION["userID"] = $row['registrationID']; 
         $_SESSION["userName"] = $user_name;
         $_SESSION["password"] = $password;
         $_SESSION["hash"] = $hash;
