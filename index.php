@@ -19,7 +19,7 @@ $typeStmt->closeCursor();
 $search = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING);
 $typeID = filter_input(INPUT_GET, 'typeID', FILTER_VALIDATE_INT);
 
-// Build the query dynamically
+// Build the query 
 $queryBooks = '
     SELECT b.*, t.bookType
     FROM books b
@@ -67,7 +67,7 @@ $statement1->closeCursor();
     <main>
         <h2>Book List</h2>
 
-        <!-- 🔍 Search and Filter Form -->
+        <!-- Search and Filter Form -->
         <form method="get" action="index.php" class="search-form">
             <input type="text" name="search" placeholder="Search title or author"
                    value="<?php echo htmlspecialchars($search ?? ''); ?>">
