@@ -8,7 +8,7 @@ if (!isset($_SESSION["isLoggedIn"])) {
 
 require("database.php");
 
-// Fetch all book types for dropdown
+// Fetch all book types for dropdown 
 $typeQuery = 'SELECT * FROM types';
 $typeStmt = $db->prepare($typeQuery);
 $typeStmt->execute();
